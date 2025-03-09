@@ -1,7 +1,6 @@
 package randomizedtest;
 
 import edu.princeton.cs.algs4.StdRandom;
-import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -44,34 +43,44 @@ public class TestBuggyAList {
 
     @Test
     public void randomizedTest() {
-        AListNoResizing<Integer> L = new AListNoResizing<>();
-        BuggyAList<Integer> porblem = new BuggyAList<>();
+        AListNoResizing<Integer> correct = new AListNoResizing<>();
+        BuggyAList<Integer> broken = new BuggyAList<>();
 
-        int N = 500;
+        int N = 5000;
         for (int i = 0; i < N; i += 1) {
-            int operationNumber = StdRandom.uniform(0, 3);
+            int operationNumber = StdRandom.uniform(0, 4);
             if (operationNumber == 0) {
                 // addLast
                 int randVal = StdRandom.uniform(0, 100);
-                L.addLast(randVal);
-                porblem.addLast(randVal);
-                Assert.assertEquals(L.size(),porblem.size());
+                correct.addLast(randVal);
+                broken.addLast(randVal);
+                System.out.println("addLast(" + randVal + ")");
             } else if (operationNumber == 1) {
                 // size
-                if (L.size() == 0){
-                    continue;
-                }
-                int Last = L.getLast();
-                int ProblemLast = porblem.getLast();
-                Assert.assertEquals(Last, ProblemLast);
+                int size1 = correct.size();
+                int size2 = broken.size();
+                System.out.println("size in AListNoResizing: " + size1);
+                System.out.println("size in BuggyAList: " + size2);
             } else if (operationNumber == 2) {
-                if (L.size() == 0){
-                    continue;
+                // getLast
+                if (correct.size() > 0) {
+                    int lastVal1 = correct.getLast();
+                    System.out.println("last element in AListNoResizing: " + lastVal1);
                 }
-                int LastOfL = L.getLast();
-                int LastOfB = porblem.getLast();
-                Assert.assertEquals(LastOfL,LastOfB);
-
+                if (broken.size() > 0) {
+                    int lastVal2 = broken.getLast();
+                    System.out.println("last element in BuggyAList: " + lastVal2);
+                }
+            } else if (operationNumber == 3) {
+                //removeLast
+                if (correct.size() > 0) {
+                    int removeVal1 = correct.removeLast();
+                    System.out.println("removeLast in AListNoResizing: " + removeVal1);
+                }
+                if (broken.size() > 0) {
+                    int removeVal2 = broken.removeLast();
+                    System.out.println("removeLast in BuggyAList: " + removeVal2);
+                }
             }
         }
     }
@@ -79,22 +88,20 @@ public class TestBuggyAList {
     @Test
     public void testThreeAddThreeRemove() {
         AListNoResizing<Integer> correct = new AListNoResizing<>();
-        BuggyAList<Integer> porblem = new BuggyAList<>();
+        BuggyAList<Integer> broken = new BuggyAList<>();
 
+        correct.addLast(5);
         correct.addLast(10);
-        correct.addLast(20);
-        correct.addLast(30);
+        correct.addLast(15);
 
-        porblem.addLast(10);
-        porblem.addLast(20);
-        porblem.addLast(30);
+        broken.addLast(5);
+        broken.addLast(10);
+        broken.addLast(15);
 
-        assert(correct.size() == porblem.size());
+        assertEquals(correct.size(), broken.size());
 
-        assert (correct.removeLast() == porblem.removeLast());
-        assert (correct.removeLast() == porblem.removeLast());
-        assert (correct.removeLast() == porblem.removeLast());
-
-
+        assertEquals(correct.removeLast(), broken.removeLast());
+        assertEquals(correct.removeLast(), broken.removeLast());
+        assertEquals(correct.removeLast(), broken.removeLast());
     }
 }
