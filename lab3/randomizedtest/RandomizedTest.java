@@ -3,7 +3,7 @@ package randomizedtest;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class testThreeAddThreeRemove {
+public class RandomizedTest {
 
     @Test
     public void testThreeAddThreeRemove() {
