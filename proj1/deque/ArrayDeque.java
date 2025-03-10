@@ -15,7 +15,10 @@ public class ArrayDeque <T>{
 
     public void resize(int capacity){
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items, front, a, 0, size);
+        // 将旧数组中的元素复制到新数组中,arraycopy要考虑front 和 back 的处理
+        for (int i = 0; i < size; i++) {
+            a[i] = items[(front + i) % items.length];  // 处理循环数组
+        }
         items = a;
 
         front = 0;
