@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque <T>{
+public class ArrayDeque<T> implements Deque<T>{
     private T[] items;
     private int size;
     private int front;
@@ -85,6 +85,11 @@ public class ArrayDeque <T>{
 
     public int size() {
         return size;
+    }
+
+    @Override
+    public void printDeque() {
+
     }
 
 }
